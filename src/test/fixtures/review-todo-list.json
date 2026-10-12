@@ -1,0 +1,222 @@
+{
+  "tool": "codegrade",
+  "version": "3.0.0",
+  "source": "snippet",
+  "name": "TodoList.jsx",
+  "verdict": "graded",
+  "grade": "Poor",
+  "overall_score": 64,
+  "weights": {
+    "task": 50,
+    "quality": 35,
+    "explanation": 15
+  },
+  "scores": {
+    "task": 59,
+    "quality": 62,
+    "explanation": 85
+  },
+  "review": {
+    "status": "completed",
+    "message": null,
+    "model": "claude-opus-5-5 (stubbed)",
+    "summary": "Adding and completing tasks works, but the component never shows how many tasks are left, which the task asks for.",
+    "requirements": [
+      {
+        "requirement": "Type a task and add it with a button",
+        "status": "met",
+        "evidence": "TodoList.jsx:7-10, 20"
+      },
+      {
+        "requirement": "Mark a task as done by clicking it",
+        "status": "met",
+        "evidence": "TodoList.jsx:12-14, 23"
+      },
+      {
+        "requirement": "Done tasks are crossed out",
+        "status": "partial",
+        "evidence": "TodoList.jsx:23 sets a class only"
+      },
+      {
+        "requirement": "Show how many tasks are still left",
+        "status": "missing",
+        "evidence": "No count is rendered"
+      }
+    ],
+    "bugs": [
+      {
+        "description": "Empty tasks can be added",
+        "severity": "minor",
+        "location": "TodoList.jsx:7"
+      }
+    ],
+    "explanation": {
+      "accuracy": "accurate",
+      "completeness": "partial",
+      "clarity": "clear",
+      "feedback": "Accurate, but it doesn't mention the missing count."
+    },
+    "strengths": [
+      "Immutable state updates",
+      "Stable keys from ids"
+    ],
+    "improvements": [
+      "Render the number of tasks that aren't done",
+      "Use a <button> per task so it works with the keyboard"
+    ],
+    "files_reviewed": 1,
+    "files_omitted": []
+  },
+  "checks": [
+    {
+      "source": "task",
+      "name": "TodoList",
+      "status": "found",
+      "detail": "defined at TodoList.jsx:3"
+    }
+  ],
+  "quality": {
+    "score": 62,
+    "code_score": 62,
+    "hygiene_score": null,
+    "points_lost": {
+      "reliability": 0.0,
+      "complexity": 0.0,
+      "readability": 7.0,
+      "documentation": 10.0,
+      "accessibility": 14.0,
+      "testing": 7.0
+    },
+    "files": [
+      {
+        "path": "TodoList.jsx",
+        "language": "javascript",
+        "code_lines": 25,
+        "functions": [
+          {
+            "name": "TodoList",
+            "start_line": 3,
+            "end_line": 29,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "add",
+            "start_line": 7,
+            "end_line": 10,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "toggle",
+            "start_line": 12,
+            "end_line": 14,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 13,
+            "end_line": 13,
+            "complexity": 2,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 18,
+            "end_line": 18,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 21,
+            "end_line": 25,
+            "complexity": 2,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 22,
+            "end_line": 22,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          }
+        ],
+        "findings": [
+          {
+            "rule": "no-tests",
+            "severity": "warning",
+            "dimension": "testing",
+            "message": "no tests: nothing shows this code works; cover the main path and the edge cases",
+            "path": "TodoList.jsx",
+            "line": 1
+          },
+          {
+            "rule": "short-names",
+            "severity": "warning",
+            "dimension": "readability",
+            "message": "single-letter names (`a`, `b`) don't say what they hold",
+            "path": "TodoList.jsx",
+            "line": 4
+          },
+          {
+            "rule": "input-label",
+            "severity": "warning",
+            "dimension": "accessibility",
+            "message": "form field without a label; add <label htmlFor> or aria-label",
+            "path": "TodoList.jsx",
+            "line": 18
+          },
+          {
+            "rule": "no-types",
+            "severity": "warning",
+            "dimension": "documentation",
+            "message": "no type information; use TypeScript or JSDoc so callers know what to pass",
+            "path": "TodoList.jsx",
+            "line": 18
+          },
+          {
+            "rule": "click-non-interactive",
+            "severity": "warning",
+            "dimension": "accessibility",
+            "message": "click handler on <li>; keyboard users can't trigger it (use a <button>)",
+            "path": "TodoList.jsx",
+            "line": 22
+          },
+          {
+            "rule": "missing-docs",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 exported function(s) without a doc comment (`TodoList`)",
+            "path": "TodoList.jsx",
+            "line": 3
+          }
+        ],
+        "max_nesting": 0,
+        "duplicated_lines": 0,
+        "score": 62,
+        "points_lost": {
+          "reliability": 0.0,
+          "complexity": 0.0,
+          "readability": 7.0,
+          "documentation": 10.0,
+          "accessibility": 14.0,
+          "testing": 7.0
+        },
+        "longest_function": 27,
+        "max_complexity": 2
+      }
+    ],
+    "hygiene": []
+  },
+  "skipped": [],
+  "duration_ms": 3.2
+}

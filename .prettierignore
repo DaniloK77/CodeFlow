@@ -1,0 +1,7 @@
+dist
+coverage
+package-lock.json
+.venv
+.pytest_cache
+.ruff_cache
+src/test/fixtures

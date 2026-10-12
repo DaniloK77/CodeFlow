@@ -1,0 +1,19 @@
+{
+  "status": "ok",
+  "version": "3.0.0",
+  "ai_review": {
+    "enabled": false,
+    "model": null,
+    "reviews_per_day": 1000,
+    "remaining_today": 200
+  },
+  "limits": {
+    "max_upload_bytes": 5242880,
+    "max_snippet_chars": 200000,
+    "max_source_files": 400,
+    "rate_limit_requests": 1000,
+    "rate_limit_window_seconds": 60.0,
+    "min_task_chars": 20,
+    "min_explanation_chars": 30
+  }
+}

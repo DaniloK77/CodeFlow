@@ -1,0 +1,157 @@
+{
+  "pair-sums": {
+    "quality": 46,
+    "codeLines": 9,
+    "findings": [
+      {
+        "rule": "deep-nesting",
+        "severity": "error",
+        "line": 1,
+        "message": "`f` has 5 nested control blocks (limit 3)"
+      },
+      {
+        "rule": "mutable-default",
+        "severity": "warning",
+        "line": 1,
+        "message": "mutable default argument is shared across calls"
+      },
+      {
+        "rule": "short-names",
+        "severity": "warning",
+        "line": 1,
+        "message": "single-letter names (`f`, `l`, `r`) don't say what they hold"
+      },
+      {
+        "rule": "no-tests",
+        "severity": "warning",
+        "line": 1,
+        "message": "no tests: nothing shows this code works; cover the main path and the edge cases"
+      },
+      {
+        "rule": "missing-docstrings",
+        "severity": "info",
+        "line": 1,
+        "message": "1 public function(s) without a docstring (`f`)"
+      },
+      {
+        "rule": "missing-type-hints",
+        "severity": "info",
+        "line": 1,
+        "message": "1 public function(s) without full type hints (`f`)"
+      },
+      {
+        "rule": "range-len",
+        "severity": "info",
+        "line": 2,
+        "message": "`range(len(...))` loop; iterate directly or use `enumerate()`"
+      },
+      {
+        "rule": "range-len",
+        "severity": "info",
+        "line": 3,
+        "message": "`range(len(...))` loop; iterate directly or use `enumerate()`"
+      },
+      {
+        "rule": "nested-loops",
+        "severity": "info",
+        "line": 3,
+        "message": "nested loops over the same collection (O(n²)); a set or dict lookup is often faster"
+      },
+      {
+        "rule": "import-side-effects",
+        "severity": "info",
+        "line": 11,
+        "message": "1 statement(s) run on import; move them under `if __name__ == \"__main__\":`"
+      }
+    ],
+    "checks": [
+      {
+        "source": "task",
+        "name": "find_pairs",
+        "status": "missing",
+        "detail": "the task names it, the code doesn't define it"
+      },
+      {
+        "source": "task",
+        "name": "target",
+        "status": "missing",
+        "detail": "the task names it, the code doesn't define it"
+      }
+    ]
+  },
+  "todo-list": {
+    "quality": 62,
+    "codeLines": 25,
+    "findings": [
+      {
+        "rule": "no-tests",
+        "severity": "warning",
+        "line": 1,
+        "message": "no tests: nothing shows this code works; cover the main path and the edge cases"
+      },
+      {
+        "rule": "short-names",
+        "severity": "warning",
+        "line": 4,
+        "message": "single-letter names (`a`, `b`) don't say what they hold"
+      },
+      {
+        "rule": "input-label",
+        "severity": "warning",
+        "line": 18,
+        "message": "form field without a label; add <label htmlFor> or aria-label"
+      },
+      {
+        "rule": "no-types",
+        "severity": "warning",
+        "line": 18,
+        "message": "no type information; use TypeScript or JSDoc so callers know what to pass"
+      },
+      {
+        "rule": "click-non-interactive",
+        "severity": "warning",
+        "line": 22,
+        "message": "click handler on <li>; keyboard users can't trigger it (use a <button>)"
+      },
+      {
+        "rule": "missing-docs",
+        "severity": "info",
+        "line": 3,
+        "message": "1 exported function(s) without a doc comment (`TodoList`)"
+      }
+    ],
+    "checks": [
+      {
+        "source": "task",
+        "name": "TodoList",
+        "status": "found",
+        "detail": "defined at TodoList.jsx:3"
+      }
+    ]
+  },
+  "user-list": {
+    "quality": 100,
+    "codeLines": 40,
+    "findings": [],
+    "checks": [
+      {
+        "source": "task",
+        "name": "UserList",
+        "status": "found",
+        "detail": "defined at UserList.tsx:17"
+      },
+      {
+        "source": "task",
+        "name": "onSelect",
+        "status": "found",
+        "detail": "defined at UserList.tsx:44"
+      },
+      {
+        "source": "explanation",
+        "name": "onSelect",
+        "status": "found",
+        "detail": "appears in the code"
+      }
+    ]
+  }
+}

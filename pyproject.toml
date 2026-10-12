@@ -1,0 +1,42 @@
+# Configuration for the Python tooling in tools/ (the web app itself is configured in package.json).
+[project]
+name = "codegrade"
+version = "3.0.0"
+description = "Strict code-quality grader for JavaScript, TypeScript and Python, and its HTTP API"
+requires-python = ">=3.10"
+dependencies = ["tree-sitter>=0.25,<1", "tree-sitter-typescript>=0.23,<1"]
+
+[project.optional-dependencies]
+ai = ["anthropic>=1.11,<2"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+include = ["tools/**/*.py", "api/**/*.py", "scripts/**/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C90", "N", "RUF", "PL"]
+ignore = [
+  "PLR2004", # magic values are fine in tests and score thresholds
+  "RUF001",  # ambiguous unicode: report output deliberately uses ✔ ✖ · →
+  "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"api/routes.py" = ["B008"] # FastAPI's Depends()/File() defaults are the framework idiom
+"**/tests/**" = ["PLR0913"]
+"tools/codegrade/ai_review.py" = ["PLC0415"] # `anthropic` is an optional, lazily imported dependency
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["api/tests", "tools/codegrade/tests"]
+pythonpath = ["."]
+addopts = "-q"

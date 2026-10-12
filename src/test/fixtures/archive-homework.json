@@ -1,0 +1,400 @@
+{
+  "tool": "codegrade",
+  "version": "3.0.0",
+  "source": "archive",
+  "name": "homework.zip",
+  "verdict": "quality_only",
+  "grade": null,
+  "overall_score": null,
+  "weights": {
+    "task": 50,
+    "quality": 35,
+    "explanation": 15
+  },
+  "scores": {
+    "task": null,
+    "quality": 63,
+    "explanation": null
+  },
+  "review": {
+    "status": "unavailable",
+    "message": "AI review isn't configured, so the task and explanation weren't verified.",
+    "model": null,
+    "summary": null,
+    "requirements": [],
+    "bugs": [],
+    "explanation": null,
+    "strengths": [],
+    "improvements": [],
+    "files_reviewed": 0,
+    "files_omitted": []
+  },
+  "checks": [
+    {
+      "source": "task",
+      "name": "TodoList",
+      "status": "found",
+      "detail": "defined at src/TodoList.jsx:3"
+    }
+  ],
+  "quality": {
+    "score": 63,
+    "code_score": 84,
+    "hygiene_score": 0,
+    "points_lost": {
+      "reliability": 1.2,
+      "complexity": 2.2,
+      "readability": 3.9,
+      "documentation": 4.1,
+      "accessibility": 4.7,
+      "testing": 0.0
+    },
+    "files": [
+      {
+        "path": "src/TodoList.jsx",
+        "language": "javascript",
+        "code_lines": 25,
+        "functions": [
+          {
+            "name": "TodoList",
+            "start_line": 3,
+            "end_line": 29,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "add",
+            "start_line": 7,
+            "end_line": 10,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "toggle",
+            "start_line": 12,
+            "end_line": 14,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 13,
+            "end_line": 13,
+            "complexity": 2,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 18,
+            "end_line": 18,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 21,
+            "end_line": 25,
+            "complexity": 2,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 22,
+            "end_line": 22,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          }
+        ],
+        "findings": [
+          {
+            "rule": "short-names",
+            "severity": "warning",
+            "dimension": "readability",
+            "message": "single-letter names (`a`, `b`) don't say what they hold",
+            "path": "src/TodoList.jsx",
+            "line": 4
+          },
+          {
+            "rule": "input-label",
+            "severity": "warning",
+            "dimension": "accessibility",
+            "message": "form field without a label; add <label htmlFor> or aria-label",
+            "path": "src/TodoList.jsx",
+            "line": 18
+          },
+          {
+            "rule": "no-types",
+            "severity": "warning",
+            "dimension": "documentation",
+            "message": "no type information; use TypeScript or JSDoc so callers know what to pass",
+            "path": "src/TodoList.jsx",
+            "line": 18
+          },
+          {
+            "rule": "click-non-interactive",
+            "severity": "warning",
+            "dimension": "accessibility",
+            "message": "click handler on <li>; keyboard users can't trigger it (use a <button>)",
+            "path": "src/TodoList.jsx",
+            "line": 22
+          },
+          {
+            "rule": "missing-docs",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 exported function(s) without a doc comment (`TodoList`)",
+            "path": "src/TodoList.jsx",
+            "line": 3
+          }
+        ],
+        "max_nesting": 0,
+        "duplicated_lines": 0,
+        "score": 69,
+        "points_lost": {
+          "reliability": 0.0,
+          "complexity": 0.0,
+          "readability": 7.0,
+          "documentation": 10.0,
+          "accessibility": 14.0,
+          "testing": 0.0
+        },
+        "longest_function": 27,
+        "max_complexity": 2
+      },
+      {
+        "path": "src/UserList.tsx",
+        "language": "typescript",
+        "code_lines": 40,
+        "functions": [
+          {
+            "name": "UserList",
+            "start_line": 17,
+            "end_line": 34,
+            "complexity": 2,
+            "max_nesting": 1,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 24,
+            "end_line": 31,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 27,
+            "end_line": 27,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 38,
+            "end_line": 41,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 43,
+            "end_line": 48,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          }
+        ],
+        "findings": [],
+        "max_nesting": 1,
+        "duplicated_lines": 0,
+        "score": 100,
+        "points_lost": {
+          "reliability": 0.0,
+          "complexity": 0.0,
+          "readability": 0.0,
+          "documentation": 0.0,
+          "accessibility": 0.0,
+          "testing": 0.0
+        },
+        "longest_function": 18,
+        "max_complexity": 2
+      },
+      {
+        "path": "src/pair_sums.py",
+        "language": "python",
+        "code_lines": 9,
+        "functions": [
+          {
+            "name": "f",
+            "start_line": 1,
+            "end_line": 8,
+            "complexity": 6,
+            "max_nesting": 5,
+            "params": 2
+          }
+        ],
+        "findings": [
+          {
+            "rule": "deep-nesting",
+            "severity": "error",
+            "dimension": "complexity",
+            "message": "`f` has 5 nested control blocks (limit 3)",
+            "path": "src/pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "mutable-default",
+            "severity": "warning",
+            "dimension": "reliability",
+            "message": "mutable default argument is shared across calls",
+            "path": "src/pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "short-names",
+            "severity": "warning",
+            "dimension": "readability",
+            "message": "single-letter names (`f`, `l`, `r`) don't say what they hold",
+            "path": "src/pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "missing-docstrings",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 public function(s) without a docstring (`f`)",
+            "path": "src/pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "missing-type-hints",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 public function(s) without full type hints (`f`)",
+            "path": "src/pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "range-len",
+            "severity": "info",
+            "dimension": "readability",
+            "message": "`range(len(...))` loop; iterate directly or use `enumerate()`",
+            "path": "src/pair_sums.py",
+            "line": 2
+          },
+          {
+            "rule": "range-len",
+            "severity": "info",
+            "dimension": "readability",
+            "message": "`range(len(...))` loop; iterate directly or use `enumerate()`",
+            "path": "src/pair_sums.py",
+            "line": 3
+          },
+          {
+            "rule": "nested-loops",
+            "severity": "info",
+            "dimension": "complexity",
+            "message": "nested loops over the same collection (O(n²)); a set or dict lookup is often faster",
+            "path": "src/pair_sums.py",
+            "line": 3
+          },
+          {
+            "rule": "import-side-effects",
+            "severity": "info",
+            "dimension": "reliability",
+            "message": "1 statement(s) run on import; move them under `if __name__ == \"__main__\":`",
+            "path": "src/pair_sums.py",
+            "line": 11
+          }
+        ],
+        "max_nesting": 5,
+        "duplicated_lines": 0,
+        "score": 53,
+        "points_lost": {
+          "reliability": 10.0,
+          "complexity": 18.0,
+          "readability": 13.0,
+          "documentation": 6.0,
+          "accessibility": 0.0,
+          "testing": 0.0
+        },
+        "longest_function": 8,
+        "max_complexity": 6
+      }
+    ],
+    "hygiene": [
+      {
+        "name": "README",
+        "passed": false,
+        "weight": 15,
+        "hint": "document setup, scripts and architecture in README.md"
+      },
+      {
+        "name": "Automated tests",
+        "passed": false,
+        "weight": 20,
+        "hint": "add unit tests (*.test.tsx, test_*.py)"
+      },
+      {
+        "name": "Continuous integration",
+        "passed": false,
+        "weight": 15,
+        "hint": "run checks on every push (.github/workflows)"
+      },
+      {
+        "name": "Linter",
+        "passed": false,
+        "weight": 10,
+        "hint": "configure ESLint / Ruff"
+      },
+      {
+        "name": "Formatter",
+        "passed": false,
+        "weight": 10,
+        "hint": "configure Prettier / Black"
+      },
+      {
+        "name": "Static typing",
+        "passed": false,
+        "weight": 10,
+        "hint": "add TypeScript (tsconfig.json) or mypy"
+      },
+      {
+        "name": "License",
+        "passed": false,
+        "weight": 5,
+        "hint": "add a LICENSE file"
+      },
+      {
+        "name": ".gitignore",
+        "passed": false,
+        "weight": 5,
+        "hint": "ignore build output and dependencies"
+      },
+      {
+        "name": "Lockfile",
+        "passed": false,
+        "weight": 5,
+        "hint": "commit a dependency lockfile"
+      },
+      {
+        "name": "EditorConfig",
+        "passed": false,
+        "weight": 5,
+        "hint": "add .editorconfig for consistent whitespace"
+      }
+    ]
+  },
+  "skipped": [],
+  "duration_ms": 3.2
+}

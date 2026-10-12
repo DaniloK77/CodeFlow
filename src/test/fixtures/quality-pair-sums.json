@@ -1,0 +1,174 @@
+{
+  "tool": "codegrade",
+  "version": "3.0.0",
+  "source": "snippet",
+  "name": "pair_sums.py",
+  "verdict": "quality_only",
+  "grade": null,
+  "overall_score": null,
+  "weights": {
+    "task": 50,
+    "quality": 35,
+    "explanation": 15
+  },
+  "scores": {
+    "task": null,
+    "quality": 46,
+    "explanation": null
+  },
+  "review": {
+    "status": "unavailable",
+    "message": "AI review isn't configured, so the task and explanation weren't verified.",
+    "model": null,
+    "summary": null,
+    "requirements": [],
+    "bugs": [],
+    "explanation": null,
+    "strengths": [],
+    "improvements": [],
+    "files_reviewed": 0,
+    "files_omitted": []
+  },
+  "checks": [
+    {
+      "source": "task",
+      "name": "find_pairs",
+      "status": "missing",
+      "detail": "the task names it, the code doesn't define it"
+    },
+    {
+      "source": "task",
+      "name": "target",
+      "status": "missing",
+      "detail": "the task names it, the code doesn't define it"
+    }
+  ],
+  "quality": {
+    "score": 46,
+    "code_score": 46,
+    "hygiene_score": null,
+    "points_lost": {
+      "reliability": 10.0,
+      "complexity": 18.0,
+      "readability": 13.0,
+      "documentation": 6.0,
+      "accessibility": 0.0,
+      "testing": 7.0
+    },
+    "files": [
+      {
+        "path": "pair_sums.py",
+        "language": "python",
+        "code_lines": 9,
+        "functions": [
+          {
+            "name": "f",
+            "start_line": 1,
+            "end_line": 8,
+            "complexity": 6,
+            "max_nesting": 5,
+            "params": 2
+          }
+        ],
+        "findings": [
+          {
+            "rule": "deep-nesting",
+            "severity": "error",
+            "dimension": "complexity",
+            "message": "`f` has 5 nested control blocks (limit 3)",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "mutable-default",
+            "severity": "warning",
+            "dimension": "reliability",
+            "message": "mutable default argument is shared across calls",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "short-names",
+            "severity": "warning",
+            "dimension": "readability",
+            "message": "single-letter names (`f`, `l`, `r`) don't say what they hold",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "no-tests",
+            "severity": "warning",
+            "dimension": "testing",
+            "message": "no tests: nothing shows this code works; cover the main path and the edge cases",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "missing-docstrings",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 public function(s) without a docstring (`f`)",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "missing-type-hints",
+            "severity": "info",
+            "dimension": "documentation",
+            "message": "1 public function(s) without full type hints (`f`)",
+            "path": "pair_sums.py",
+            "line": 1
+          },
+          {
+            "rule": "range-len",
+            "severity": "info",
+            "dimension": "readability",
+            "message": "`range(len(...))` loop; iterate directly or use `enumerate()`",
+            "path": "pair_sums.py",
+            "line": 2
+          },
+          {
+            "rule": "range-len",
+            "severity": "info",
+            "dimension": "readability",
+            "message": "`range(len(...))` loop; iterate directly or use `enumerate()`",
+            "path": "pair_sums.py",
+            "line": 3
+          },
+          {
+            "rule": "nested-loops",
+            "severity": "info",
+            "dimension": "complexity",
+            "message": "nested loops over the same collection (O(n²)); a set or dict lookup is often faster",
+            "path": "pair_sums.py",
+            "line": 3
+          },
+          {
+            "rule": "import-side-effects",
+            "severity": "info",
+            "dimension": "reliability",
+            "message": "1 statement(s) run on import; move them under `if __name__ == \"__main__\":`",
+            "path": "pair_sums.py",
+            "line": 11
+          }
+        ],
+        "max_nesting": 5,
+        "duplicated_lines": 0,
+        "score": 46,
+        "points_lost": {
+          "reliability": 10.0,
+          "complexity": 18.0,
+          "readability": 13.0,
+          "documentation": 6.0,
+          "accessibility": 0.0,
+          "testing": 7.0
+        },
+        "longest_function": 8,
+        "max_complexity": 6
+      }
+    ],
+    "hygiene": []
+  },
+  "skipped": [],
+  "duration_ms": 3.2
+}

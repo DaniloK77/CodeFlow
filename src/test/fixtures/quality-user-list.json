@@ -1,0 +1,131 @@
+{
+  "tool": "codegrade",
+  "version": "3.0.0",
+  "source": "snippet",
+  "name": "UserList.tsx",
+  "verdict": "quality_only",
+  "grade": null,
+  "overall_score": null,
+  "weights": {
+    "task": 50,
+    "quality": 35,
+    "explanation": 15
+  },
+  "scores": {
+    "task": null,
+    "quality": 100,
+    "explanation": null
+  },
+  "review": {
+    "status": "unavailable",
+    "message": "AI review isn't configured, so the task and explanation weren't verified.",
+    "model": null,
+    "summary": null,
+    "requirements": [],
+    "bugs": [],
+    "explanation": null,
+    "strengths": [],
+    "improvements": [],
+    "files_reviewed": 0,
+    "files_omitted": []
+  },
+  "checks": [
+    {
+      "source": "task",
+      "name": "UserList",
+      "status": "found",
+      "detail": "defined at UserList.tsx:17"
+    },
+    {
+      "source": "task",
+      "name": "onSelect",
+      "status": "found",
+      "detail": "defined at UserList.tsx:44"
+    },
+    {
+      "source": "explanation",
+      "name": "onSelect",
+      "status": "found",
+      "detail": "appears in the code"
+    }
+  ],
+  "quality": {
+    "score": 100,
+    "code_score": 100,
+    "hygiene_score": null,
+    "points_lost": {
+      "reliability": 0.0,
+      "complexity": 0.0,
+      "readability": 0.0,
+      "documentation": 0.0,
+      "accessibility": 0.0,
+      "testing": 0.0
+    },
+    "files": [
+      {
+        "path": "UserList.tsx",
+        "language": "typescript",
+        "code_lines": 40,
+        "functions": [
+          {
+            "name": "UserList",
+            "start_line": 17,
+            "end_line": 34,
+            "complexity": 2,
+            "max_nesting": 1,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 24,
+            "end_line": 31,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 1
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 27,
+            "end_line": 27,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 38,
+            "end_line": 41,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          },
+          {
+            "name": "<anonymous>",
+            "start_line": 43,
+            "end_line": 48,
+            "complexity": 1,
+            "max_nesting": 0,
+            "params": 0
+          }
+        ],
+        "findings": [],
+        "max_nesting": 1,
+        "duplicated_lines": 0,
+        "score": 100,
+        "points_lost": {
+          "reliability": 0.0,
+          "complexity": 0.0,
+          "readability": 0.0,
+          "documentation": 0.0,
+          "accessibility": 0.0,
+          "testing": 0.0
+        },
+        "longest_function": 18,
+        "max_complexity": 2
+      }
+    ],
+    "hygiene": []
+  },
+  "skipped": [],
+  "duration_ms": 3.2
+}

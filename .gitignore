@@ -1,3 +1,24 @@
+# Dependencies
+node_modules
+
+# Secrets (copy .env.example to .env)
+.env
+.env.*
+!.env.example
+
+# Build output and reports
+dist
+dist-ssr
+coverage
+*.tsbuildinfo
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+
 # Logs
 logs
 *.log
@@ -5,20 +26,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Editor and OS files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
+
+# Python test/lint caches
+.pytest_cache/
+
+# Personal notes (not part of the project)
+*.local.md
