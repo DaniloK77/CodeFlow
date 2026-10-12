@@ -40,3 +40,6 @@ pnpm-debug.log*
 
 # Personal notes (not part of the project)
 *.local.md
+
+# Local tool configuration
+.claude/
