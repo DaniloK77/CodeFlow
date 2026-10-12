@@ -18,6 +18,10 @@ the names in your task exist in your code and, with an AI review, grades the who
 
 </div>
 
+<p align="center">
+  <img src="docs/screenshots/landing-hero.webp" alt="CodeFlow landing page: the headline, an example submission with the lines the analysis flagged, and a card showing Code quality 46/100 with its top findings" width="100%" />
+</p>
+
 ---
 
 ## The idea: no fake grades
@@ -56,6 +60,78 @@ The grading screen (`/grade`) has the form on the left and the report on the rig
 - **Attempt history and before/after**: the form stays filled, so you fix what the report found and
   grade again. The report compares with your previous attempt at the same task: score change, which
   findings were fixed, which are new. History lives in your browser's `localStorage` only.
+
+## A tour of the product
+
+Every number on these screens is real output of the engine described below. Nothing is mocked up.
+
+### Landing page
+
+The hero shows a real submission, not an invented one. The three tabs are example solutions (weak,
+middling, strong). The lines the static analysis flagged are tinted in the code, and the card lists
+the top findings of that file with the score it received. Note what the card does **not** show: a
+rank. A rank needs the AI to verify the task, and the card says so.
+
+The examples' reports are generated from the engine (`npm run fixtures` writes
+`src/content/exampleReports.generated.json`), and a test fails if they ever drift from the API.
+
+![A section of the landing page explaining how the task is checked and how code quality is measured](docs/screenshots/landing-how-it-works.webp)
+
+_"How it works": each feature is shown as the terminal-style output it produces. The task checklist
+(met, partly met, missing, with the line that proves it) comes from the AI review; the quality
+findings come from the static analyzer._
+
+![Pricing: Free is available now; Pro and Classroom are marked as planned and not available yet](docs/screenshots/landing-pricing.webp)
+
+_Pricing is honest about what exists. Only the Free plan works today. Pro (€20) and Classroom (€100)
+are labelled **Planned · not available yet**, and their buttons only collect interest through a
+GitHub issue. Nothing on the page sells something that isn't built._
+
+![The footer: Product and Project link groups, a GitHub link and the MIT license](docs/screenshots/landing-footer.webp)
+
+_The footer contains only links that go somewhere real: the page sections, the source, the README
+sections for the API and the CLI, the issue tracker and the license._
+
+### Grading screen (`/grade`)
+
+The form is on the left and the report on the right. Here a legacy-style script is graded **without**
+an AI key, so the report refuses to invent a rank.
+
+![The grading screen: the form on the left; on the right Code quality 0/100, a Task not verified badge, per-part bars marked not verified, and the names from the task found in the code](docs/screenshots/grading-report.webp)
+
+_What this shows:_
+
+- **Verdict.** _Code quality 0/100_ with a **Task not verified** badge instead of Excellent, Good or
+  Poor, and a notice explaining that the task and explanation weren't graded.
+- **Parts.** The three weighted parts (task 50%, quality 35%, explanation 15%) are listed; the two the
+  AI would grade say _not verified_ rather than showing a made-up number.
+- **What we could verify without AI.** Names from the task and the explanation, looked up in the code:
+  `jumpToCode` is defined at `snippet.js:2`, and `querySelectorAll` appears in the code. The task and
+  the explanation are written in Serbian here; the lookup only cares about identifiers, not the
+  language of the prose.
+
+![The quality breakdown by dimension, then the submitted code with the flagged lines tinted](docs/screenshots/grading-breakdown.webp)
+
+_Where the points went._ The bars are the six dimensions (reliability, complexity, readability, docs
+and types, accessibility, testing), and they add up to exactly the points the file lost. This is a
+61-line script written the old way (an IIFE, `var` everywhere, no types, no tests), so 14 warnings
+at −7 each take the score to the floor. The deduction is split across the dimensions so the bars
+still add up to 100. Below the bars the submitted code is shown with every flagged line tinted;
+clicking a finding in the list scrolls to its line and flashes it.
+
+The form stays filled after grading (see **Grade again**, bottom left), so you can fix what the
+report found and grade again. The next report then compares the two attempts: score change, which
+findings were fixed, and which are new.
+
+### On a phone
+
+<p align="center">
+  <img src="docs/screenshots/mobile-pricing.png" alt="The mobile layout: the navigation menu open over the pricing section" width="320" />
+</p>
+
+_The whole site is responsive. Here the mobile menu is open over the pricing plans, with the Pro plan
+labelled as planned. The page never scrolls sideways; wide content such as code scrolls inside its
+own block._
 
 ## How grading works
 
@@ -103,6 +179,8 @@ its own score: the prompt tells the model to report such attempts instead.
 
 ## Architecture
 
+### The system
+
 ```mermaid
 flowchart LR
     subgraph Browser
@@ -129,6 +207,98 @@ The engine scores everything. The AI reviewer is a pluggable adapter behind a sm
 protocol: Claude in production, a fake in tests. The HTTP API and the CLI produce the **same JSON
 report** (contract v3: `verdict`, nullable `grade`/`overall_score`, `checks`, six dimensions), and
 the web app validates it at runtime with zod.
+
+### What happens when you press "Grade my solution"
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant Web as Grading screen
+    participant API as FastAPI
+    participant Worker as Analysis worker
+    participant AI as Claude
+
+    User->>Web: task, code, explanation
+    Web->>Web: check lengths and file types before sending
+    Web->>API: POST /api/review/snippet
+    API->>API: body-size cap, rate limit
+    API->>Worker: analyze_snippet (killed after 20 s)
+    Worker->>Worker: gate, parse, rules, score, look up names
+    alt not gradable code
+        Worker-->>API: refusal (not_code, unsupported_language, too_little_code)
+        API-->>Web: 422 with a code. The AI is never called
+    else accepted
+        Worker-->>API: quality report + static checks
+        API->>AI: review task and explanation (needs a key and today's allowance)
+        AI-->>API: requirements, bugs, ratings. Never scores
+        API->>API: grade_submission applies the weights
+        API-->>Web: verdict "graded" (rank) or "quality_only" (score only)
+    end
+    Web->>Web: validate with zod, save the attempt, compare with the previous one
+    Web-->>User: report
+```
+
+Two details matter here. The analysis happens **before** the AI is asked, so refused input never
+costs a review. And the worker is a separate process, so a request with pathological code can only
+cost one worker for the timeout.
+
+### Inside the engine (`tools/codegrade`)
+
+```mermaid
+flowchart TD
+    IN["Pasted code or .zip"] --> GATE["Gate: is this gradable code?"]
+    GATE -- "no" --> REF["Refusal with a reason"]
+    GATE -- "yes" --> SRC["SourceFile: language, code lines, test-file detection"]
+    SRC --> PY["Python: ast + tokenize"]
+    SRC --> JS["JS / TS / JSX: tree-sitter"]
+    PY --> RULES["Rules<br/>reliability · readability · docs and types · accessibility · React"]
+    JS --> RULES
+    RULES --> METRICS["Metrics: length, complexity, nesting, duplication"]
+    METRICS --> SCORE["Scoring<br/>−15 / −7 / −3 per finding · syntax errors cap at 40 · points lost per dimension"]
+    SCORE --> QUALITY["Quality report"]
+    TASK["Task + explanation"] --> SIG["Static checks: names looked up in the code"]
+    SRC --> SIG
+    QUALITY --> GRADE["grade_submission"]
+    SIG --> GRADE
+    AI["AI review (optional)"] --> GRADE
+    GRADE --> OUT["verdict: graded or quality_only"]
+```
+
+| Module                                       | Role                                                                           |
+| -------------------------------------------- | ------------------------------------------------------------------------------ |
+| `languages.py`                               | The input gate: detects the language, refuses prose, other languages, snippets |
+| `source.py`                                  | `SourceFile`: which lines are code, which files are tests                      |
+| `js_parser.py`                               | tree-sitter wrapper; indexes every node by type so each rule is a cheap lookup |
+| `js_analyzer.py`, `py_analyzer.py`           | Function metrics (length, complexity, nesting, parameters), syntax errors      |
+| `js_rules.py`, `jsx_rules.py`, `js_style.py` | JavaScript, React/accessibility and readability/type/doc rules                 |
+| `py_rules.py`, `py_style.py`                 | The Python counterparts, on the real AST                                       |
+| `duplication.py`                             | Copy-paste detection across the project                                        |
+| `scoring.py`                                 | Penalties, the syntax-error cap, rounding, the per-dimension breakdown         |
+| `hygiene.py`, `archive.py`, `discovery.py`   | Project checks (README, tests, CI…), safe zip reading, file discovery          |
+| `task_signals.py`                            | Names from the task and the explanation, looked up in the code                 |
+| `assignment.py`, `ai_review.py`              | The 50/35/15 weights, rank bands, the Claude adapter and its JSON schema       |
+| `isolation.py`                               | Runs an analysis in a process that can be killed                               |
+| `report.py`, `text_report.py`, `cli.py`      | The JSON contract, the terminal report and the command line                    |
+
+### Inside the web app (`src`)
+
+- **Routing.** `App.tsx` chooses the page from the path. Navigation is the History API plus one
+  subscription (`lib/navigation.ts`, `lib/router.tsx`); a router library would be unused weight for two
+  pages. The grading screen is a lazy chunk, and `GradeLink` starts downloading it on hover or focus.
+- **One request at a time.** `useAnalysis` is a small state machine (idle, loading, success, error).
+  Starting a new run, cancelling or leaving the page aborts the request in flight, so a stale response
+  can never overwrite a newer one.
+- **A typed boundary.** `api.ts` sends the request, `schema.ts` validates the response with zod and
+  maps snake_case to camelCase. Errors keep the grader's reason (`code`), which `ErrorNotice` turns
+  into a specific message.
+- **The report is a set of small components** (`report/`): verdict, per-part bars, static checks,
+  checklist, quality breakdown, code view, findings, comparison. A verdict without a rank is a
+  first-class state, not an error.
+- **Attempt history** (`history.ts`). Each result is stored in `localStorage` (newest 20, validated
+  with zod on read, every access guarded). Comparing two attempts is done per rule, because messages
+  shift as code changes.
+- **Content is data.** Copy, examples, plans and rule explanations live in `src/content` and
+  `ruleDocs.ts`, with tests that keep them consistent with the engine.
 
 ## Getting started
 
@@ -265,8 +435,38 @@ When the daily AI allowance is used up, the request still succeeds: the report i
 - **Fair to the user.** A refused or failed review doesn't use up the daily allowance.
 - **Ship less JavaScript.** The landing page loads about **21 KB** gzip of app code. The grading
   screen, zod and the syntax grammars are a lazy chunk that preloads on hover.
-- **Realistic tests.** 112 Vitest tests (MSW with recorded fixtures) and 256 pytest tests. The AI
+- **Realistic tests.** 121 Vitest tests (MSW with recorded fixtures) and 258 pytest tests. The AI
   reviewer is tested against a fake client, so the suite never calls Claude.
+
+## How it was built
+
+The project grew in three steps, and the third is the interesting one.
+
+1. **A product page and a first grader.** A landing-page template became a typed, linted, tested React
+   app with a Free plan, and a Python static analyzer (`codegrade`) that rated code Excellent, Good or
+   Poor. A FastAPI service accepts pasted code, a file or a `.zip`.
+2. **Assignments.** Students submit a task, a solution and an explanation. An AI review describes
+   whether the task is met and whether the explanation is accurate; fixed rules turn that into the
+   50/35/15 grade. Uploads were hardened (zip-slip, zip bombs, streaming size caps, rate limits and a
+   daily AI budget).
+3. **Honest grading.** Everything pasted into the grader scored 100/100. Finding out why produced
+   three root causes and three fixes:
+
+| Problem                                      | Cause                                                         | Fix                                                                            |
+| -------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Plain text, Java and SQL got a perfect score | Anything unknown was treated as JavaScript                    | An input gate that refuses what isn't gradable code                            |
+| Broken code got 100                          | Regex heuristics couldn't see syntax errors or structure      | A real parser (tree-sitter, Python `ast`); syntax errors cap at 40             |
+| Short snippets got 100                       | No findings meant 100, and missing practices weren't findings | Rules for what is **absent** (tests, types, docs) and a −15/−7/−3 model        |
+| A rank was shown for code nobody had checked | "Code quality" was presented as the final grade               | `verdict: quality_only`: a score, never a rank, until the AI verifies the task |
+
+Profiling the new parser turned up one more problem: tree-sitter's error recovery is not linear on
+every malformed input, and its progress callback can't be used to interrupt it from Python (in
+py-tree-sitter 0.26 even an empty callback crashes). So analysis moved into a worker process that is
+killed on a timeout, which is also what keeps the API safe against hostile uploads.
+
+The repository grades itself: `npm run quality` fails the build below 90, and today it scores 98.
+Every false positive that grading found (a two-argument `.then`, a returned `fetch`, callbacks typed
+by their context) became a regression test.
 
 ## Plans
 
